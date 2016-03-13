@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-
 from pubnub import Pubnub
 
 pubnub = Pubnub(publish_key="pub-c-8f6fa682-0e7f-4766-ab33-a00525d8738b",
