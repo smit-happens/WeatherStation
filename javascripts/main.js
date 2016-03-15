@@ -22,7 +22,7 @@ function receive(txt, channel) {
     var output = document.getElementById("channelOutput");
 
     if(channel.indexOf("weather") != -1) {
-        output.value += "[weather\t ]: " + txt + "\n";
+        output.value += "[ weather ]: " + txt + "\n";
     }
     else if(channel.indexOf("command") != -1) {
         output.value += "[command]: " + txt + "\n";
