@@ -37,7 +37,6 @@ figcaption,
 figure,
 footer,
 header,
-hgroup,
 main,
 menu,
 nav,
@@ -252,11 +251,20 @@ samp {
 button,
 input,
 optgroup,
-select,
+select {
+  margin: 0; /* 3 */
+  font: inherit; /* 2 */
+  color: inherit; /* 1 */
+}
+
 textarea {
   margin: 0; /* 3 */
   font: inherit; /* 2 */
   color: inherit; /* 1 */
+  height: auto;
+  width: 400px;
+  resize: vertical;
+  min-height: 70px;
 }
 
 /**
