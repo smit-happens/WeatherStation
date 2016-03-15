@@ -24,33 +24,20 @@ function receive(txt, channel) {
     if(channel.indexOf("weather") != -1) {
         output.value += "[weather\t ]: " + txt + "\n";
     }
-    else {
+    else if(channel.indexOf("command") != -1) {
         output.value += "[command]: " + txt + "\n";
     }
 
     output.scrollTop = output.scrollHeight;
 }
 
-function sendWeatherMessage() {
+function sendMessage(channel) {
     // Sending data
     var messageInput = document.getElementById("messageInput");
     var text = messageInput.value;
 
     pubnub.publish({
-        channel: channel1,
-        message: text
-    });
-
-    document.getElementById("messageInput").value = "";
-}
-
-function sendCommandMessage() {
-    // Sending data
-    var messageInput = document.getElementById("messageInput");
-    var text = messageInput.value;
-
-    pubnub.publish({
-        channel: channel2,
+        channel: channel,
         message: text
     });
 
