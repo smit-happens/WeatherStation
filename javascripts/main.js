@@ -18,6 +18,34 @@ pubnub.subscribe({
     message: receive
 });
 
+/*setInterval(function(){
+
+    pubnub.publish({
+        channel: 'c3-spline',
+        message: {
+            eon: {
+                'Austin': Math.floor(Math.random() * 99),
+                'New York': Math.floor(Math.random() * 99),
+                'San Francisco': Math.floor(Math.random() * 99),
+                'Portland': Math.floor(Math.random() * 99)
+            }
+        }
+    });
+
+}, 1000);*/
+
+eon.chart({                 //eon chart code
+    channel: 'c3-spline', // the pubnub channel for real time data
+    history: true,
+    generate: {           // c3 chart object
+        bindto: "#chart",
+        data: {
+            labels: true
+        }
+    }
+});
+
+
 function receive(txt, channel) {
     var output = document.getElementById("channelOutput");
 

@@ -9,11 +9,9 @@
     <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
     <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
 
-    <!--[if lt IE 9]>
-    <!-- <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script> -->
-    <!--[endif]>
-
     <!-- importing needed js files -->
+    <script type="text/javascript" src="//pubnub.github.io/eon/v/eon/0.0.10/eon.js"></script>
+    <link rel="stylesheet" type="text/css" href="//pubnub.github.io/eon/v/eon/0.0.10/eon.css"/>
     <script src="http://cdn.pubnub.com/pubnub-3.14.3.js"></script>
     <script src="javascripts/main.js"></script>
 
@@ -23,7 +21,7 @@
   <body>
     <header>
       <div class="inner">
-        <h1>Weatherstation</h1>
+        <h1>Weather Station</h1>
         <h2>Raspberry Pi Zero based weather station for collecting relevant data and uploading it to a server</h2>
         <a href="https://github.com/smit-happens/WeatherStation" class="button"><small>View project on</small> GitHub</a>
       </div>
@@ -31,6 +29,7 @@
 
     <div id="content-wrapper">
       <div class="inner clearfix">
+        <div id="chart"></div>    <!-- part where the EON spline will go -->
         <section id="main-content">
           <h3>Raw Channel and Message Data</h3>
 
