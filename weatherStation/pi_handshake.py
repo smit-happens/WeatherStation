@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 #!/usr/bin/python
+=======
+#!/usr/bin/env python
+>>>>>>> f725b4180361e48e17b0b6ba589de21cd5f9198a
 
 from pubnub import Pubnub
 
