@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import RPi.GPIO as GPIO
-import time, sys
+import time, sys, threading, queue
 from pubnub import Pubnub
 
 pubnub = Pubnub(publish_key="pub-c-8f6fa682-0e7f-4766-ab33-a00525d8738b",
@@ -9,6 +9,14 @@ pubnub = Pubnub(publish_key="pub-c-8f6fa682-0e7f-4766-ab33-a00525d8738b",
 
 channelW = "weather"
 channelC = "command"
+
+pubnub.subscribe(
+    channelW,
+    callback = callback)
+
+pubnub.subscribe(
+    channelC,
+    callback = callback)
 
 GPIO.setmode(GPIO.BCM)
 
@@ -22,6 +30,12 @@ def RCtime (RCpin):
     while (GPIO.input(RCpin) == GPIO.LOW):
         reading += 1
     return reading
+
+#usrText = ""
+
+#while usrText != "EXIT":
+#    usrText = raw_input("Enter what channel you would like to use (command or weather [1,2]): ")
+    
 
 while True:
     sys.stdout.write("\r%i" % RCtime(18))
