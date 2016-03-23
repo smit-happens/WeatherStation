@@ -10,20 +10,11 @@ pubnub = Pubnub(publish_key="pub-c-8f6fa682-0e7f-4766-ab33-a00525d8738b",
 channelW = "weather"
 channelC = "command"
 
-'''
-pubnub.subscribe(
-    channelW,
-    callback = callback)
 
-pubnub.subscribe(
-    channelC,
-    callback = callback)
+GPIO.setmode(GPIO.BCM)
 
 def callback(message, channel):
     print('[' + channel + ']: ' + str(message))
-'''
-
-GPIO.setmode(GPIO.BCM)
 
 #sys.stdout.write("\r%i" % RCtime(18))
 def RCtime (RCpin):
@@ -56,22 +47,32 @@ def command(lock):
     with lock:
         print('command Test confirm')
 
+def text(lock):
+    with lock:
+        print('text entered doesn\'t match any actions')
+
 def main():
     cmdActions = {'weather': weather, 'command': command}
     cmdQueue = queue.Queue()
     threadLock = threading.Lock()
 
-    dj = threading.Thread(target=console, args=(cmdQueue, threadLock))
-    dj.start()
+    stack = threading.Thread(target=console, args=(cmdQueue, threadLock))
+    stack.start()
 
     while True:
         cmd = cmdQueue.get()
         if cmd == 'exit':
             break
-        action = cmdActions.get(cmd)
+        action = cmdActions.get(cmd, text)
         action(threadLock)
     
 ################################
+        pubnub.subscribe(
+            channelW,
+            callback = callback)
 
+        pubnub.subscribe(
+            channelC,
+            callback = callback)
 
 main()
