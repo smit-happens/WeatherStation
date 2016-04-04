@@ -18,10 +18,10 @@ pubnub.subscribe({
     message: receive
 });
 
-/*setInterval(function(){
+setInterval(function(){
 
     pubnub.publish({
-        channel: 'c3-spline',
+        channel: 'spline',
         message: {
             eon: {
                 'Austin': Math.floor(Math.random() * 99),
@@ -32,15 +32,32 @@ pubnub.subscribe({
         }
     });
 
-}, 1000);*/
+}, 10000);
+
+window.onload = function () {
+    eon.chart({                 //eon chart code
+        channel: 'spline',      // the pubnub channel for real time data
+        history: true,
+        pubnub: pubnub,
+        flow: true,
+        generate: {             // c3 chart object
+            bindto: "#chart",
+            data: {
+                labels: false
+            }
+        }
+    });
+};
 
 eon.chart({                 //eon chart code
-    channel: 'c3-spline', // the pubnub channel for real time data
+    channel: 'spline',      // the pubnub channel for real time data
     history: true,
-    generate: {           // c3 chart object
+    pubnub: pubnub,
+    flow: true,
+    generate: {             // c3 chart object
         bindto: "#chart",
         data: {
-            labels: true
+            labels: false
         }
     }
 });
