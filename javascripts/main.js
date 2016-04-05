@@ -18,7 +18,7 @@ pubnub.subscribe({
     message: receive
 });
 
-setInterval(function(){
+/*setInterval(function(){
 
     pubnub.publish({
         channel: 'spline',
@@ -32,33 +32,43 @@ setInterval(function(){
         }
     });
 
-}, 10000);
+}, 10000);*/
 
 window.onload = function () {
     eon.chart({                 //eon chart code
-        channel: 'spline',      // the pubnub channel for real time data
+        channel: channel1,      // the pubnub channel for real time data
         history: true,
         pubnub: pubnub,
         flow: true,
         generate: {             // c3 chart object
             bindto: "#chart",
             data: {
-                labels: false
+                label: false
             }
+        },
+        transform: function(data) {
+            return { eon: {
+                light: data.light
+            }};
         }
     });
 };
 
 eon.chart({                 //eon chart code
-    channel: 'spline',      // the pubnub channel for real time data
+    channel: channel1,      // the pubnub channel for real time data
     history: true,
     pubnub: pubnub,
     flow: true,
     generate: {             // c3 chart object
         bindto: "#chart",
         data: {
-            labels: false
+            label: false
         }
+    },
+    transform: function(data) {
+        return { eon: {
+            light: data.light
+        }};
     }
 });
 
