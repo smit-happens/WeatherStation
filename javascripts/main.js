@@ -48,7 +48,9 @@ window.onload = function () {
         },
         transform: function(data) {
             return { eon: {
-                light: data.light
+                light: data.light,
+                humidity: data.humidity,
+                temperature: data.temperature
             }};
         }
     });
@@ -67,7 +69,9 @@ eon.chart({                 //eon chart code
     },
     transform: function(data) {
         return { eon: {
-            light: data.light
+            light: data.light,
+            humidity: data.humidity,
+            temperature: data.temperature
         }};
     }
 });
