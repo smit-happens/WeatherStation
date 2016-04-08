@@ -1,19 +1,27 @@
 #!/usr/bin/env python3.4
 
 import RPi.GPIO as GPIO
-import time
+import time, sys, json
+from pubnub import Pubnub
 
 def bin2dec(string_num): # define a function to convert a binary number to a decimal.
-    if int(string_num, 2) == 0 :
-        decVal = str("0")
+    if string_num == '':
+        decVal = 999
     else :
-        decVal = str(int(string_num, 2)) # return the string representing the 
-    return decVal                  #integer value of the string passed to this function in base 2 (binary)
+        decVal = int(string_num, 2) # return the int representing the 
+    return decVal          #value of the string passed to this function in base 2 (binary)
+
+pubnub = Pubnub(publish_key="pub-c-8f6fa682-0e7f-4766-ab33-a00525d8738b",
+                subscribe_key="sub-c-db86ff84-e60a-11e5-a25a-02ee2ddab7fe")
+
+channelW = "weather"
+channelC = "command"
 
 GPIO.setmode(GPIO.BCM) # use Broadcom numbers instead of the WiringPi numbers
+GPIO.setwarnings(False)
 
-errorVal = 100
-while (errorVal != 0) :
+
+while True :
     data = []       # define a data array
     
     GPIO.setup(17,GPIO.OUT)  # Set it as an output to:
@@ -67,7 +75,7 @@ while (errorVal != 0) :
                                                         #temperature bitstring
 
     except: # if there was an error in the "try:" block
-       print ("ERR_RANGE1") # report it
+       print ("ERR_Measurement_RANGE") # report it
 
     try: # do this unless there's an error. If there's an error jump to "Except:"
        for i in range(0, 8): # do this 9 times
@@ -86,18 +94,29 @@ while (errorVal != 0) :
           else:                  # if there were less than 3* 1-bits
              crc = crc + "0" # add a 0 to the crc bitstring
     except:                 # if the "try:" block failed
-       print ("ERR_RANGE2") # report it
+       print ("ERR_CRC_RANGE") # report it
 
-    Humidity = bin2dec(HumidityBit) # convert the binary bitstring to a decimal 
+    Humidity = int(bin2dec(HumidityBit)) # convert the binary bitstring to a decimal 
                                     #variable for humidity
-    Temperature = bin2dec(TemperatureBit)   #convert the binary bitstring to a 
+    Temperature = int(bin2dec(TemperatureBit))   #convert the binary bitstring to a 
                                             #decimal variable for temperature
-    errorVal = int(Humidity) + int(Temperature) - int(bin2dec(crc))
+    errorVal = Humidity + Temperature - bin2dec(crc)
 
-    if errorVal == 0: # test whether the CRC
-                      #indicates that the reading was good
-       print (Humidity) # duh
-       print (Temperature) # duh
-    else:                #if the CRC check was bad
-       print ("ERR_CRC: "+ str(errorVal)) # report it
-    time.sleep(1)
+    if errorVal != 0 : # test whether the CRC indicates that the reading was good
+        print ("ERR_CRC: ", str(errorVal), str(crc)) # report crc error
+    elif Humidity != 999 & Temperature != 999:
+        print (str(Humidity), '\t', str(crc))
+        print (str(Temperature))
+
+        data = {
+            'humidity': Humidity,
+            'temperature': Temperature
+        }
+
+        pubnub.publish(channel = channelW,
+                       message = data)
+       
+    else:
+        print ('Null error')
+       
+    time.sleep(.25)

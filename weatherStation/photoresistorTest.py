@@ -28,11 +28,11 @@ def RCtime (RCpin):
 while True:
     lightVal = 0
     
-    for i in range (0 , 40):
+    for i in range (0 , 60):
         lightVal += RCtime(18)
         
-    lightVal = .1/((lightVal/40) +1)
-    humidity, temperature = read(DHT11, 17)
+    lightVal = 100/(lightVal/60)
+    #humidity, temperature = read(DHT11, 17)
     
     print('Sending light value of ' + str(lightVal) + ' onto weather channel')
     #print('Temperature should be ' + str(temperature))
