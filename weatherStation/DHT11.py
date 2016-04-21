@@ -75,7 +75,7 @@ while True :
                                                         #temperature bitstring
 
     except: # if there was an error in the "try:" block
-       print ("ERR_Measurement_RANGE") # report it
+       print ("Measurement_RANGE") # report it
 
     try: # do this unless there's an error. If there's an error jump to "Except:"
        for i in range(0, 8): # do this 9 times
@@ -94,7 +94,7 @@ while True :
           else:                  # if there were less than 3* 1-bits
              crc = crc + "0" # add a 0 to the crc bitstring
     except:                 # if the "try:" block failed
-       print ("ERR_CRC_RANGE") # report it
+       print ("CRC_RANGE") # report it
 
     Humidity = int(bin2dec(HumidityBit)) # convert the binary bitstring to a decimal 
                                     #variable for humidity
@@ -103,7 +103,7 @@ while True :
     errorVal = Humidity + Temperature - bin2dec(crc)
 
     if errorVal != 0 : # test whether the CRC indicates that the reading was good
-        print ("ERR_CRC: ", str(errorVal), str(crc)) # report crc error
+        print ("CRC: ", str(errorVal), str(crc)) # report crc error
     elif Humidity != 999 & Temperature != 999:
         print (str(Humidity), '\t', str(crc))
         print (str(Temperature))
